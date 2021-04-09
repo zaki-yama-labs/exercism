@@ -6,4 +6,6 @@ use chrono::{DateTime, Duration, Utc};
 pub fn after(start: DateTime<Utc>) -> DateTime<Utc> {
     let base: i64 = 10;
     start.add(Duration::seconds(base.pow(9)))
+    // Or
+    // start.add(Duration::seconds(10i64.pow(9)))
 }
