@@ -3,71 +3,38 @@
 
 #[derive(Debug)]
 pub struct Duration {
-    s: u64,
+    value: u64,
 }
 
 impl From<u64> for Duration {
-    fn from(s: u64) -> Self {
-        Self { s }
+    fn from(value: u64) -> Self {
+        Self { value }
     }
 }
 
 pub trait Planet {
+    const ORBITAL_PERIOD: f64;
+
     fn years_during(d: &Duration) -> f64 {
-        todo!("convert a duration ({d:?}) to the number of years on this planet for that duration");
+        (d.value as f64) / (Self::ORBITAL_PERIOD * 3_1557_600.0)
     }
 }
 
-pub struct Mercury;
-pub struct Venus;
-pub struct Earth;
-pub struct Mars;
-pub struct Jupiter;
-pub struct Saturn;
-pub struct Uranus;
-pub struct Neptune;
+macro_rules! planet {
+    ($i:ident, $orbital_period:tt) => {
+        pub struct $i;
 
-impl Planet for Mercury {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / (0.2408467 * 3_1557_600.0)
-    }
+        impl Planet for $i {
+            const ORBITAL_PERIOD: f64 = $orbital_period;
+        }
+    };
 }
 
-impl Planet for Venus {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / (0.61519726 * 3_1557_600.0)
-    }
-}
-
-impl Planet for Earth {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / 3_1557_600.0
-    }
-}
-
-impl Planet for Mars {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / (1.8808158 * 3_1557_600.0)
-    }
-}
-
-impl Planet for Jupiter {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / (11.862615 * 3_1557_600.0)
-    }
-}
-impl Planet for Saturn {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / (29.447498 * 3_1557_600.0)
-    }
-}
-impl Planet for Uranus {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / (84.016846 * 3_1557_600.0)
-    }
-}
-impl Planet for Neptune {
-    fn years_during(d: &Duration) -> f64 {
-        (d.s as f64) / (164.79132 * 3_1557_600.0)
-    }
-}
+planet!(Mercury, 0.2408467);
+planet!(Venus, 0.61519726);
+planet!(Earth, 1.0);
+planet!(Mars, 1.8808158);
+planet!(Jupiter, 11.862615);
+planet!(Saturn, 29.447498);
+planet!(Uranus, 84.016846);
+planet!(Neptune, 164.79132);
