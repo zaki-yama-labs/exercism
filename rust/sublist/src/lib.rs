@@ -1,3 +1,5 @@
+pub mod solution1;
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Comparison {
     Equal,
